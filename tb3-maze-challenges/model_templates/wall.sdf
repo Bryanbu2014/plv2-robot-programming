@@ -1,0 +1,78 @@
+<%
+	# default parameters
+	name = 'wall'
+	gazebo_material_name = 'Wood'
+	size_x = 1
+	size_y = 0.05
+	size_z = 0.2
+	rot_x = 0
+	rot_y = 0
+	rot_z = 0
+
+	# get serialized arguments if defined and has length
+	try:
+		if serialized_args:
+			gazebo_material_name, = serialized_args.split('_')
+	except NameError:
+		pass
+
+	material_lib = 'gazebo'
+	material_name = f'Gazebo/{gazebo_material_name}'
+	
+	if gazebo_material_name == 'White':
+		laser_retro = 3
+	elif gazebo_material_name == 'Red':
+		laser_retro = 2
+	else:
+		laser_retro = 1
+
+	# actual instantiation depends on the material
+	model_name = f'{name}_{gazebo_material_name}'
+%>
+<?xml version="1.0" ?>
+<sdf version="1.7">
+	<model name="${model_name}">
+		<link name="link">
+			<visual name="visual">
+				<%def name="pose()">
+				<pose>${size_x/2} ${size_y/2} ${size_z/2} ${rot_x} ${rot_y} ${rot_z}</pose>
+				</%def>
+				${pose()}
+				<%def name="geometry()">
+				<geometry>
+					<box>
+						<size>${size_x} ${size_y} ${size_z}</size>
+					</box>
+				</geometry>
+				</%def>
+				${geometry()}
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/${material_lib}.material</uri>
+						<name>${material_name}</name>
+					</script>
+				</material>
+			</visual>
+			<collision name="collision">
+				## same pose and geometry for collision
+				${pose()}
+				${geometry()}
+				<laser_retro>${laser_retro}</laser_retro>
+			</collision>
+			% if gazebo_material_name=='Red':
+			<sensor name='sensor_contact_wall' type='contact'>
+				<contact><collision>collision</collision></contact>
+			</sensor>
+			% endif
+		</link>
+		% if gazebo_material_name=='Red':
+		<plugin filename="libTouchPlugin.so" name='plugin_touch'>
+			<sensor>sensor_contact_wall</sensor>
+			<target>tb3</target>
+			<namespace>finish_wall</namespace>
+			<time>0.00001</time>
+			<enabled>true</enabled>
+		</plugin>
+		% endif
+	</model>
+</sdf>

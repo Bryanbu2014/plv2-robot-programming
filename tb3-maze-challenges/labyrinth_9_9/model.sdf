@@ -1,0 +1,570 @@
+
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="labyrinth">
+		
+				
+				
+					
+			
+			<include><name>0_8v</name><uri>model://wall</uri><pose>0 8 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>0_9h</name><uri>model://wall</uri><pose>0 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_7v</name><uri>model://wall</uri><pose>0 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_6h</name><uri>model://wall</uri><pose>0 6 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>0_6v</name><uri>model://wall</uri><pose>0 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_5v</name><uri>model://wall</uri><pose>0 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_4v</name><uri>model://wall</uri><pose>0 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_3v</name><uri>model://wall</uri><pose>0 3 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_2h</name><uri>model://wall</uri><pose>0 2 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>0_2v</name><uri>model://wall</uri><pose>0 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_1v</name><uri>model://wall</uri><pose>0 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>0_0h</name><uri>model://wall_White</uri><pose>0 0 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>0_0v</name><uri>model://wall</uri><pose>0 0 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_8h</name><uri>model://wall</uri><pose>1 8 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>1_8v</name><uri>model://wall</uri><pose>1 8 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>1_9h</name><uri>model://wall</uri><pose>1 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_7v</name><uri>model://wall</uri><pose>1 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_6h</name><uri>model://wall</uri><pose>1 6 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_5v</name><uri>model://wall</uri><pose>1 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_4h</name><uri>model://wall</uri><pose>1 4 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_3h</name><uri>model://wall</uri><pose>1 3 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>1_3v</name><uri>model://wall</uri><pose>1 3 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>1_1h</name><uri>model://wall</uri><pose>1 1 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>1_1v</name><uri>model://wall</uri><pose>1 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>1_0h</name><uri>model://wall</uri><pose>1 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_8h</name><uri>model://wall</uri><pose>2 8 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>2_9h</name><uri>model://wall</uri><pose>2 9 0 0 0 0</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>2_6v</name><uri>model://wall</uri><pose>2 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_5h</name><uri>model://wall</uri><pose>2 5 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_4v</name><uri>model://wall</uri><pose>2 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_3h</name><uri>model://wall</uri><pose>2 3 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_2v</name><uri>model://wall</uri><pose>2 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_1h</name><uri>model://wall</uri><pose>2 1 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>2_0h</name><uri>model://wall</uri><pose>2 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_9h</name><uri>model://wall</uri><pose>3 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_7v</name><uri>model://wall</uri><pose>3 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_6v</name><uri>model://wall</uri><pose>3 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_5v</name><uri>model://wall</uri><pose>3 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_4v</name><uri>model://wall</uri><pose>3 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_3h</name><uri>model://wall</uri><pose>3 3 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_2h</name><uri>model://wall</uri><pose>3 2 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_1v</name><uri>model://wall</uri><pose>3 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>3_0h</name><uri>model://wall</uri><pose>3 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_8h</name><uri>model://wall</uri><pose>4 8 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>4_9h</name><uri>model://wall</uri><pose>4 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_7v</name><uri>model://wall</uri><pose>4 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_6v</name><uri>model://wall</uri><pose>4 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_5v</name><uri>model://wall</uri><pose>4 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_4h</name><uri>model://wall</uri><pose>4 4 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_3v</name><uri>model://wall</uri><pose>4 3 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_2h</name><uri>model://wall</uri><pose>4 2 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_1h</name><uri>model://wall</uri><pose>4 1 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>4_0h</name><uri>model://wall</uri><pose>4 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>5_8h</name><uri>model://wall</uri><pose>5 8 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>5_9h</name><uri>model://wall</uri><pose>5 9 0 0 0 0</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>5_6h</name><uri>model://wall</uri><pose>5 6 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>5_6v</name><uri>model://wall</uri><pose>5 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>5_5v</name><uri>model://wall</uri><pose>5 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>5_4h</name><uri>model://wall</uri><pose>5 4 0 0 0 0</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>5_2v</name><uri>model://wall</uri><pose>5 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>5_1h</name><uri>model://wall</uri><pose>5 1 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>5_1v</name><uri>model://wall</uri><pose>5 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>5_0h</name><uri>model://wall</uri><pose>5 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>6_9h</name><uri>model://wall</uri><pose>6 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>6_7h</name><uri>model://wall</uri><pose>6 7 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>6_7v</name><uri>model://wall</uri><pose>6 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>6_5v</name><uri>model://wall</uri><pose>6 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>6_4v</name><uri>model://wall</uri><pose>6 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>6_3v</name><uri>model://wall</uri><pose>6 3 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>6_2h</name><uri>model://wall</uri><pose>6 2 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>6_2v</name><uri>model://wall</uri><pose>6 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>6_0h</name><uri>model://wall</uri><pose>6 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_8h</name><uri>model://wall</uri><pose>7 8 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>7_8v</name><uri>model://wall</uri><pose>7 8 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>7_9h</name><uri>model://wall</uri><pose>7 9 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_7h</name><uri>model://wall</uri><pose>7 7 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_6v</name><uri>model://wall</uri><pose>7 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_5v</name><uri>model://wall</uri><pose>7 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_4h</name><uri>model://wall</uri><pose>7 4 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>7_4v</name><uri>model://wall</uri><pose>7 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+				
+				
+					
+			
+			<include><name>7_2h</name><uri>model://wall</uri><pose>7 2 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>7_2v</name><uri>model://wall</uri><pose>7 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_1v</name><uri>model://wall</uri><pose>7 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>7_0h</name><uri>model://wall</uri><pose>7 0 0 0 0 0</pose></include>
+		
+				
+				
+					
+			
+			<include><name>8_9h</name><uri>model://wall_Red</uri><pose>8 9 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>9_8v</name><uri>model://wall</uri><pose>9 8 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>9_7v</name><uri>model://wall</uri><pose>9 7 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>8_6v</name><uri>model://wall</uri><pose>8 6 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>9_6v</name><uri>model://wall</uri><pose>9 6 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>8_5h</name><uri>model://wall</uri><pose>8 5 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>9_5v</name><uri>model://wall</uri><pose>9 5 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>9_4v</name><uri>model://wall</uri><pose>9 4 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>8_3h</name><uri>model://wall</uri><pose>8 3 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>8_3v</name><uri>model://wall</uri><pose>8 3 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>9_3v</name><uri>model://wall</uri><pose>9 3 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>9_2v</name><uri>model://wall</uri><pose>9 2 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>9_1v</name><uri>model://wall</uri><pose>9 1 0 0 0 1.5707963267948966</pose></include>
+		
+				
+				
+					
+			
+			<include><name>8_0h</name><uri>model://wall</uri><pose>8 0 0 0 0 0</pose></include>
+		
+					
+			
+			<include><name>8_0v</name><uri>model://wall</uri><pose>8 0 0 0 0 1.5707963267948966</pose></include>
+		
+					
+			
+			<include><name>9_0v</name><uri>model://wall</uri><pose>9 0 0 0 0 1.5707963267948966</pose></include>
+		
+	</model>
+</sdf>
+

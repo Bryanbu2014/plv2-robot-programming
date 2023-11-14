@@ -1,92 +1,107 @@
-# plv2-robot-programming
+# PLV 2 - Robot Programming
 
+## Contents in this Repository
 
+- [reports](/reports/): This folder contains reports that will be written by me after the project
+- [src](/src/): Source code for the project
+- [tb3-maze-challenges](/tb3-maze-challenges/): Files for simulation
 
-## Getting started
+# Turtlebot3 ROS2 template
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+A minimal template for controlling Turtlebot3
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## Setup
 
-## Add your files
+Open three terminal windows for:
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+1. running your ROS node
+2. writing code
+3. launching & monitoring Gazebo
+
+### 1st window - running your ROS node
+
+```sh
+git clone https://mygit.th-deg.de/gaydos/tb3-ros2-template && cd tb3-ros2-template
+```
+
+Then you can run your ROS node:
+
+```sh
+# Load your ROS environment, e.g.:
+. /opt/ros/rolling/setup.sh
+
+python tb3.py  # or python3 in Ubuntu
+```
+
+This should at least output:
 
 ```
-cd existing_repo
-git remote add origin https://mygit.th-deg.de/wb29353/plv2-robot-programming.git
-git branch -M main
-git push -uf origin main
+waiting for messages...
 ```
 
-## Integrate with your tools
+If the robot is already brought up (in simulation or real), then you should also get `LaserScan` messages:
 
-- [ ] [Set up project integrations](https://mygit.th-deg.de/wb29353/plv2-robot-programming/-/settings/integrations)
+```
+Distances:
+⬆️: 0.5624107122421265
+⬇️: 0.3894226849079132
+...
+```
 
-## Collaborate with your team
+### 2nd window - writing code
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Open `tb3.py` with your your favorite text editor, e.g., `vim`, `Visual Studio Code (Code OSS)`
 
-## Test and Deploy
+### 3rd window - launching & monitoring Gazebo
 
-Use the built-in continuous integration in GitLab.
+```sh
+# Load your ROS environment, e.g.:
+. /opt/ros/rolling/setup.sh
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+# Simulate a world, e.g:
+gazebo --verbose WORLD_FILE.sdf
+```
 
-***
+Should output:
 
-# Editing this README
+```
+Gazebo multi-robot simulator, ...
+...
+[Msg] Waiting for master.
+[Msg] Connected to gazebo master @ http://127.0.0.1:11345
+...
+[Msg] Loading world file [...]
+...
+```
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+And if you open a world with TB3 or add it manually:
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```
+[INFO] [1608802634.071946263] [gazebo_ros_node]: ROS was initialized without arguments.
+...
+```
 
-## Name
-Choose a self-explaining name for your project.
+After TB3 is instantiated, you should see `LaserScan` values in the first window
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## Notes
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+- In Gazebo, use `CTRL+r` on Gazebo to restart the simulation. This way you do not have to close and open Gazebo
+- Use `CTRL+c` to kill a command line process, e.g., your ROS program or non-responsive Gazebo
+- If you get the following error:
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+  ```
+  [Err] ... EXCEPTION: Unable to start server[bind: Address already in use]. There is probably another Gazebo process running.
+  ```
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+  then choose another port for Gazebo, e.g.:
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+  ```
+  $ GAZEBO_MASTER_URI=:12346 gazebo --verbose WORLD.sdf
+  ```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- If you do not use the simulation, then close Gazebo to leave the processor resources for others on the same machine. If the system is slow, `htop` may show you the reason. `htop` shows who the active processes belong to and processor usage.
+- You can kill a process with process id 12345 using `kill 12345`. The process id is shown in the `PID` column in `htop`. Alternatively `killall PROCESS_NAME`, e.g., `killall gzserver`.
+- `tools/` folder contain convenience scripts, e.g.,
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+  - `stop-tb3.sh`: to stop the robot manually
+  - `tb3-teleop.sh`: teleoperation using keyboard

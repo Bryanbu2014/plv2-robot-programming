@@ -1,0 +1,14 @@
+
+
+<?xml version='1.0' ?>
+<sdf version='1.7'>
+	<world name="world_2_2">
+		<include><name>sun</name><uri>model://sun</uri></include>
+		<include><name>ground</name><uri>model://ground_plane</uri></include>
+
+		<include><name>tb3</name><uri>model://turtlebot3_waffle_pi</uri><pose>0.5 0.5 0 0 0 1.5707963267948966</pose></include>
+		<include><name>labyrinth_2_2</name><uri>model://labyrinth_2_2</uri><pose>0 0 0 0 0 0</pose></include>
+		<!-- disable shadows according to https://github.com/osrf/gazebo/issues/2623 -->
+		<scene><shadows>0</shadows></scene>
+	</world>
+</sdf>

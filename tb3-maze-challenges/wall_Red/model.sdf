@@ -1,0 +1,51 @@
+
+<?xml version="1.0" ?>
+<sdf version="1.7">
+	<model name="wall_Red">
+		<link name="link">
+			<visual name="visual">
+				
+				
+				<pose>0.5 0.025 0.1 0 0 0</pose>
+				
+				
+				
+				<geometry>
+					<box>
+						<size>1 0.05 0.2</size>
+					</box>
+				</geometry>
+				
+				<material>
+					<script>
+						<uri>file://media/materials/scripts/gazebo.material</uri>
+						<name>Gazebo/Red</name>
+					</script>
+				</material>
+			</visual>
+			<collision name="collision">
+				
+				<pose>0.5 0.025 0.1 0 0 0</pose>
+				
+				
+				<geometry>
+					<box>
+						<size>1 0.05 0.2</size>
+					</box>
+				</geometry>
+				
+				<laser_retro>2</laser_retro>
+			</collision>
+			<sensor name='sensor_contact_wall' type='contact'>
+				<contact><collision>collision</collision></contact>
+			</sensor>
+		</link>
+		<plugin filename="libTouchPlugin.so" name='plugin_touch'>
+			<sensor>sensor_contact_wall</sensor>
+			<target>tb3</target>
+			<namespace>finish_wall</namespace>
+			<time>0.00001</time>
+			<enabled>true</enabled>
+		</plugin>
+	</model>
+</sdf>

@@ -1,0 +1,71 @@
+<%
+	from math import pi
+	import sys
+	sys.path.append('../maze')
+	from df_maze import Maze
+
+	# Maze dimensions (ncols, nrows)
+	column_count, row_count = 6, 6
+	# Maze entry position
+	ix, iy = 0, 0
+	
+	# get serialized arguments if defined and has length
+	try:
+		if serialized_args:
+				column_count, row_count = \
+					(int(i) for i in serialized_args.split('_')[:2])
+					# Only take two items. Example: `5_5_a_x` => `(5,5)`.
+	except NameError:
+		pass
+
+	maze = Maze(column_count, row_count, ix, iy)
+	maze.make_maze()	
+	maze.write_svg('maze.svg')
+
+	# for unique wall id generation
+	wall_id = 0
+%>
+<?xml version="1.0" ?>
+<sdf version="1.7">
+    <model name="labyrinth">
+		<%def name="include_wall(x, y, is_vertical=False)">
+			<%
+				wall_suffix = ''
+				if is_vertical:
+					rot_z = pi/2
+					vertical_or_horizontal = 'v'
+				else:
+					if (x, y) == (0, 0):
+						wall_suffix = '_White'
+					if (x, y) == (maze.nx-1, maze.ny):
+						wall_suffix = '_Red'
+					rot_z = 0
+					vertical_or_horizontal = 'h'
+				wall_name = f'{x}_{y}{vertical_or_horizontal}'
+			%>
+			<include><name>${wall_name}</name><uri>model://wall${wall_suffix}</uri><pose>${x} ${y} 0 0 0 ${rot_z}</pose></include>
+		</%def>
+		% for cells_x in maze.maze_map:
+			% for cell in cells_x:
+				<% x = cell.x %>
+				## Maze's y axis is positive to the south, so reverse it
+				<% y = maze.ny - cell.y -1 %>
+				## every cell puts a west and a south wall
+				% if cell.walls['S']:
+					${include_wall(x, y)}
+				% endif
+				% if cell.walls['W']:
+					${include_wall(x, y, True)}
+				% endif
+				## close the north and east borders of the labyrinth
+				% if y == maze.ny-1:
+					${include_wall(x, y+1)}
+				% endif
+				% if x == maze.nx-1:
+					${include_wall(x+1, y, True)}
+				% endif
+			% endfor
+		% endfor
+	</model>
+</sdf>
+

@@ -1,0 +1,27 @@
+<%!
+	from math import pi
+	from mako.runtime import UNDEFINED
+%>
+<%
+	world_name = context.get('world_name', 'challenge_0')
+	labyrinth_name = context.get('labyrinth_name', 'labyrinth_1_1')
+	robot_pose_x = context.get('robot_pose_x', .5)
+	robot_pose_y = context.get('robot_pose_y', .5)
+	robot_pose_zr = context.get('robot_pose_zr', 0)
+
+	# robot_pose_zr may contain pi
+	if 'pi' in robot_pose_zr:
+			robot_pose_zr = eval(robot_pose_zr)
+%>
+<?xml version='1.0' ?>
+<sdf version='1.7'>
+	<world name="${world_name}">
+		<include><name>sun</name><uri>model://sun</uri></include>
+		<include><name>ground</name><uri>model://ground_plane</uri></include>
+
+		<include><name>tb3</name><uri>model://turtlebot3_waffle_pi</uri><pose>${robot_pose_x} ${robot_pose_y} 0 0 0 ${robot_pose_zr}</pose></include>
+		<include><name>${labyrinth_name}</name><uri>model://${labyrinth_name}</uri><pose>0 0 0 0 0 0</pose></include>
+		<!-- disable shadows according to https://github.com/osrf/gazebo/issues/2623 -->
+		<scene><shadows>0</shadows></scene>
+	</world>
+</sdf>
