@@ -52,7 +52,7 @@ class Tb3(Node):
 
         error = self.ROBOT_WIDTH + self.tolerance
 
-        while rclpy.ok():
+        while rclpy.ok():  # To check whether the nodes are running and healthy
             if msg.ranges[0] > error:
                 self.update_velocity("acceleration")
                 break
