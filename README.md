@@ -2,7 +2,6 @@
 
 ## Contents in this Repository
 
-- [reports](/reports/): This folder contains reports that will be written by me after the project
 - [src](/src/): Source code for the project
 - [tb3-maze-challenges](/tb3-maze-challenges/): Files for simulation
 
