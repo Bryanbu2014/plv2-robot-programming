@@ -25,7 +25,7 @@ class Tb3(Node):
         self.lin_vel_percent = 0
         self.velo = 50
         self.ROBOT_WIDTH = 0.281
-        self.tolerance = 0.2
+        self.tolerance = 0.17
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
         """publishes linear and angular self.velocities in percent"""
@@ -67,16 +67,12 @@ class Tb3(Node):
         :param mode: To instruct the robot whether it should accelerate or decelerate.
         """
         if mode == "acceleration":
-            if self.velo != 0:
-                self.velo = self.velo * 1.15
-                if self.velo >= 100:
-                    self.velo = 100
-            else:
-                self.velo = 20
+            self.velo = self.velo + 10
+            if self.velo >= 100:
+                self.velo = 100
         elif mode == "deceleration":
-            if self.velo > 10:
-                self.velo = self.velo * 0.85
-            else:
+            self.velo = self.velo - 10
+            if self.velo <= 0:
                 self.velo = 0
         self.vel(self.velo)
         print("Info:", self.velo)
