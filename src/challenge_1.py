@@ -26,6 +26,7 @@ class Tb3(Node):
         self.velo = 50
         self.ROBOT_WIDTH = 0.281
         self.tolerance = 0.17
+        self.scan_values = []
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
         """publishes linear and angular self.velocities in percent"""
@@ -50,12 +51,25 @@ class Tb3(Node):
         print("⬅️ :", msg.ranges[90])
         print("➡️ :", msg.ranges[-90])
 
+        if len(self.scan_values) < 2:
+            self.scan_values.append(msg.ranges[0])
+            print("Scan values: " + str(self.scan_values))
+            return
+
+        self.scan_values.pop(0)
+        self.scan_values.append(msg.ranges[0])
+        print("Scan values: " + str(self.scan_values))
+
+        avg_distance = (self.scan_values[0] + self.scan_values[1]) / 2
+        print("Average distance: " + str(avg_distance))
+
         error = self.ROBOT_WIDTH + self.tolerance
 
         while rclpy.ok():  # To check whether the nodes are running and healthy
-            if msg.ranges[0] > error:
+            if avg_distance > error:
                 self.update_velocity("acceleration")
                 break
+
             else:
                 self.update_velocity("deceleration")
                 break
