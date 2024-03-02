@@ -2,13 +2,14 @@
 
 <?xml version='1.0' ?>
 <sdf version='1.7'>
-	<world name="world_9_9">
+	<world name="world_3_3_box">
 		<include><name>sun</name><uri>model://sun</uri></include>
 		<include><name>ground</name><uri>model://ground_plane</uri></include>
 
 		<include><name>tb3</name><uri>model://turtlebot3_waffle_pi</uri><pose>0.5 0.5 0 0 0 1.5707963267948966</pose></include>
-		<include><name>labyrinth_9_9</name><uri>model://labyrinth_9_9</uri><pose>0 0 0 0 0 0</pose></include>
+		<include><name>labyrinth_3_3_box</name><uri>model://labyrinth_3_3_box</uri><pose>0 0 0 0 0 0</pose></include>
 		<!-- disable shadows according to https://github.com/osrf/gazebo/issues/2623 -->
 		<scene><shadows>0</shadows></scene>
-	</world>
+	<include><name>chocolate</name><uri>https://fuel.ignitionrobotics.org/1.0/GoogleResearch/models/KS_Chocolate_Cube_Box_Assortment_By_Neuhaus_2010_Ounces</uri><pose>0.5 2.5 0 0 0 0</pose></include>
+</world>
 </sdf>

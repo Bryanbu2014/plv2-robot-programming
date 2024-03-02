@@ -1,0 +1,18 @@
+build-competition-maps:
+  image: python
+  stage: build
+  script:
+  - pip install mako
+  - make -j$(nproc) competition
+  artifacts:
+    paths:
+    - labyrinth*
+    - wall*
+    - world*
+    - play
+
+  #run-simulation:
+  #  image: ros-foxy
+  #  script:
+  #  - apt update
+  #  - apt install -y ros-foxy-turtlebot3-simulations

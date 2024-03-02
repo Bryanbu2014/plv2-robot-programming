@@ -18,7 +18,7 @@ virtualenv venv
 pip install mako
 ```
 
-`mako-render` will be placed into `.venv/bin/mako-render`. The makefile in this project requires that `mako-render` command is available in yout `PATH` when generating the maps, so make sure you call `make` later like this if you installed `mako` via `pip` by replacing `DIRECTORY_WHERE_MAKO_RENDER_IS`:
+`mako-render` will be placed into `.venv/bin/mako-render`. The makefile in this project requires that `mako-render` command is available in your `PATH` when generating the maps, so make sure you call `make` later like this if you installed `mako` via `pip` by replacing `DIRECTORY_WHERE_MAKO_RENDER_IS`:
 
 ```
 PATH=$PATH:DIRECTORY_WHERE_MAKO_RENDER_IS make
@@ -38,7 +38,6 @@ $ ls
 ...
 world_1_1.sdf
 world_2_2.sdf
-world_5_5.sdf
 ...
 ```
 
@@ -64,14 +63,15 @@ How much are the minimal distances to the walls? Use the laser distance sensor (
 
 ⚠️ `./play` sets `GAZEBO_MODEL_PATH` for the simulation models used in the challenges. Executing only `gazebo --verbose world_1_1.sdf` is not sufficient.
 
-
-## Challenge 1a
+## Challenge 1
 
 ```sh
 ./play world_1_1.sdf
 ```
 
-Drive to the red wall as close as you can get and stop without colliding with the wall.
+### a
+
+Drive to the wall in front of the robot as close as you can get and stop without colliding with the wall.
 
 Some questions which could help you along:
 
@@ -80,39 +80,46 @@ Some questions which could help you along:
 - what is the minimal value of the LDS at which you should stop?
 - does your robot stop at a different point every time you run your program? If yes, what could be the reason?
 
-## Challenge 1b
+### b
 
-Your robot should stop *smoothly* by decelerating at a given maximum acceleration. 
+Your robot should stop *smoothly* by decelerating according to the distance.
 
 - how can you gradually decrease your velocity?
-- look at [this feedback loopHint](https://commons.wikimedia.org/wiki/File:Ideal_feedback_model.svg).
+- look at the feedback loop [here](https://commons.wikimedia.org/wiki/File:Ideal_feedback_model.svg).
   - what is your input, what is your output? 
   - what does the green + sign resemble?
   - what can `A` and `B` do?
+- the laser distance sensor data will probably have some noise. How can you alleviate the noise?
 
-## Challenge 1c
+### c
 
-Your robot should always move *smoothly*. Also implement gradual acceleration. 
+The start motion of the robot must also be *smooth*. 
 
-## Challenge 2a
+## Challenge 2
 
 ```
 ./play world_1_1.sdf
 ```
-Rotate 90 degrees counter-clockwise. The rotation movement must be *smooth* like in the last challenge. Only use the laser distance sensor data. If you cannot do an exact 90 degree rotation, that is fine.
 
-Formulate a control equation for your robot similar to the last challenge.
+### a
 
+Rotate 90 degrees counter-clockwise without translation. The rotation movement must be *smooth* like in the last challenge. Only use the laser distance sensor data. If you cannot do an exact 90 degree rotation, that is fine.
+
+<!--
+Formulate a control equation for the rotation similar to the last challenge.
+
+Hints:
 - how can you calculate your rotation in degrees by only using laser distance sensor data?
-- the laser distance sensor data will probably have some noise. How can you alleviate the noise?
 
-## Challenge 2b
+-->
 
-Drive to the red wall, and stop at a safe distance. Then rotate counter-clockwise and drive close to the wooden wall and stop. 
+### b
+
+Drive to the wall in front of you, and stop at a safe distance. Then rotate like in the previous subchallenge and drive close to the wall in front of you and finally stop. 
 
 - this time we have to describe a more complex behavior than the last challenge. What is a useful tool to describe the behavior of your robot?
 - do you know how to implement a state machine in Python?
-- what is a safe distance where you can rotate without colliding with the red wall? Hint: What is the turning radius of the robot? [This may help](https://emanual.robotis.com/docs/en/platform/turtlebot3/features/#data-of-turtlebot3-waffle-pi).
+- what is a safe distance where you can rotate without colliding with the wall in front of you? Hint: What is the turning radius of the robot? [This may help](https://emanual.robotis.com/docs/en/platform/turtlebot3/features/#data-of-turtlebot3-waffle-pi).
 
 
 ## Challenge 3
@@ -121,11 +128,20 @@ Drive to the red wall, and stop at a safe distance. Then rotate counter-clockwis
 ./play world_1_1.sdf
 ```
 
-You probably noticed that the laser distance sensor is noisy and driving while measuring can cause additional noise.  The challenge is the same, but instead of using laser distance data use the position and orientation published in `/odom`.
+You probably noticed that the laser distance sensor is noisy and driving while measuring can cause additional noise. The challenge is similar, but instead of using laser distance data use the position and orientation published in `/odom`.
 
-- every cell on the grid is 1m x 1m
-- the topic `/odom` contains both the position and the orientation of the robot
+Drive 15 cm ahead, rotate 90 degrees *clockwise* instead of counter-clockwise in the previous challenge, drive 15 cm ahead again and finally stop.
+
+- the topic `/odom` contains both the position and the orientation of the robot. Robot's origin is in the middle of its driving axis. You can visualize the origin of the robot by activating `Wireframe` and `Link Frames` in `View` menu of Gazebo.
 - to convert a quaternion to Euler angles, you can use `from transforms3d.euler import quat2euler`. [API reference for `quat2euler`](https://matthew-brett.github.io/transforms3d/reference/transforms3d.euler.html#quat2euler) could help.
+- you may run into problems when you try to solve the challenge on a physical robot. Solution hints:
+
+  - the odometry of the physical Turtlebot3 [cannot be reset](https://github.com/ROBOTIS-GIT/turtlebot3/issues/750#issuecomment-860371676) compared to simulation.
+  - the initial pose of the robot in Gazebo is well-defined, but the pose of the physical robot depends on the inertial measurement unit (IMU) and thus its pose relative to the magnetic field of the earth. You should place your robot with the exact pose (translation and orientation) like in simulation, then use the initial pose of `odom` as your starting pose which you can then use to create your own relative coordinate systems.
+  - a coordinate system in ROS is called *frame*.
+  - the robot's ground contact frame is called `base_footprint`. You can visualize the `odom` and `base_footprint` frames of the robot by running `rviz2`, adding a `TF` visualization, activating `Show Names` when the robot is running, i.e., publishing data.
+  - for converting between frames and adding your own frames like *maze* frame you can use [tf2](http://docs.ros.org/en/humble/Concepts/Intermediate/About-Tf2.html) and the *intro to tf2* tutorial. If you prefer a *from scratch* approach, implement the conversions between frames yourself.
+- every cell on the grid is 1m x 1m
 
 
 ## Challenge 4
@@ -134,30 +150,37 @@ You probably noticed that the laser distance sensor is noisy and driving while m
 ./play world_2_2.sdf
 ```
 
-Drive to the cell with the red wall and stop without any collision.
+Drive to the rightmost and topmost cell (marked with the red wall) and stop without any collision. However *do not assume* that the target cell is marked with the red wall, so do not use any color measurement.
 
-- how can you differentiate between wooden, white, and red walls?
+Hints:
+
 - how do you know in which cell you are?
 - how do you know to which cell you can/want to drive?
+- use two coordinate systems (aka *frames*) to describe the rotation of the robot relative to the maze: (1) *maze* (2) *robot* and implement the following functions:
+
+```python
+def robot_to_maze(rotation: float) -> float:
+  """Transforms a rotation (in z axis) in the robot frame to a rotation in maze frame"""
+  ...
+def maze_to_robot(rotation: float) -> float:
+  """Inverse of `robot_to_maze`"""
+  ...
+```
+<!--
+- use the previous functions to program something similar to:
+  -  
+-->
 
 
 ## Challenge 5
 
 ```
-./play world_5_5.sdf
+./play world_3_3.sdf
 ```
 
-Touch the red wall in the shortest time as possible. Do not touch any other wall.
+Touch the rightmost and topmost wall (marked red) in the shortest time as possible. Do not touch any other wall. Similar to the previous question, do not assume that the wall is red.
 
-When you are finished, also try with another 5x5 world using `make clean; make`.
-
-Optional: Try `world_9_9.sdf`.
-
-## Challenge 6
-
-Like challenge 5, but touch the cube box before touching the red wall.
-
-When you touch it the time will be printed like:
+When you touch the read wall the time will be printed like:
 
 ```
 [Msg] Model [...] started touching [tb3] at 1 867000000 seconds
@@ -165,10 +188,22 @@ When you touch it the time will be printed like:
 
 which means 1.867 s.
 
-Optional: How much calories per portion does the chocolate have?
+
+When you are finished, also try with another 3x3 world using `make clean; make`.
+
+Optional: Try the with a larger world.
+
+## Challenge 6
+
+```
+./play world_3_3_box.sdf
+```
+
+Like challenge 5, but touch the cube box before touching the red wall.
+
 
 # Multiple map generation of the same size for competition setting
 
-In a competition setting the participants are ranked according to their completion time in challenges 5 and 6. For a competition a set of random maps of the same size are generated and each participant's robot is timed in each labyrinth and the end score is based on the average of multiple runs.
+In a competition setting the participants are ranked according to their completion time in challenge 5. For a competition a set of random maps of the same size are generated and each participant's robot is timed in each labyrinth and the end score is based on the average of multiple runs.
 
 `make competition` generates multiple maps for the aforementioned competition setting. An example set is generated by the continuous integration script. These maps are available as artifacts under download symbol, `Previous Artifacts`, `build-competition-maps`.

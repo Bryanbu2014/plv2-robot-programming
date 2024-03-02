@@ -16,12 +16,18 @@ class Cell:
 
     # A wall separates a pair of cells in the N-S or W-E directions.
     wall_pairs = {'N': 'S', 'S': 'N', 'E': 'W', 'W': 'E'}
+    # A mapping of cardinal directions to coordinate differences.
+    delta = {'W': (-1, 0), 'E': (1, 0), 'S': (0, 1), 'N': (0, -1)}
 
     def __init__(self, x, y):
         """Initialize the cell at (x,y). At first it is surrounded by walls."""
 
         self.x, self.y = x, y
         self.walls = {'N': True, 'S': True, 'E': True, 'W': True}
+    
+    def __repr__(self):
+        """return a string representation of a cell"""
+        return f'({self.x}, {self.y})'
 
     def has_all_walls(self):
         """Does this cell still have all its walls?"""
@@ -58,6 +64,9 @@ class Maze:
         # present in the output here.
         self.excluded_walls = [((nx-1, ny), (nx, ny)),
                                ((0, 0), (0, 1))]
+        
+        # Store the solution to the maze
+        self.solution = None
 
     def cell_at(self, x, y):
         """Return the Cell object at (x,y)."""
@@ -87,7 +96,7 @@ class Maze:
         return '\n'.join(maze_rows)
 
 
-    def write_svg(self, filename):
+    def write_svg(self, filename, solution=False):
         """Write an SVG image of the maze to filename."""
 
         aspect_ratio = self.nx / self.ny
@@ -113,6 +122,12 @@ class Maze:
             pad = 5
             print(f'<rect x="{scx*x+pad}" y="{scy*y+pad}" width="{scx-2*pad}"'
                   f' height="{scy-2*pad}" style="fill:{colour}" />', file=f) 
+
+        def add_path_segment(f, cell, next_cell):
+            sx1, sy1 = scx * (cell.x + 0.5), scy * (cell.y + 0.5)
+            sx2, sy2 = scx * (next_cell.x + 0.5), scy * (next_cell.y + 0.5)
+            print(f'<line x1="{sx1}" y1="{sy1}" x2="{sx2}" y2="{sy2}" style="stroke:rgb(0,0,255)" />',
+                  file=f)
 
         # Write the SVG image file for maze
         with open(filename, 'w') as f:
@@ -157,24 +172,32 @@ class Maze:
             if self.add_treasure:
                 add_cell_rect(f, self.treasure_x, self.treasure_y, 'yellow')
 
+            if solution:
+                if self.solution is None:
+                    print('Error:  There is no solution stored.')
+                else:
+                    for i, cell in enumerate(self.solution[:-1]):
+                        next_cell = self.solution[i+1]
+                        add_path_segment(f, cell, next_cell)
+
             print('</svg>', file=f)
 
 
     def find_valid_neighbours(self, cell):
         """Return a list of unvisited neighbours to cell."""
 
-        delta = [('W', (-1, 0)),
-                 ('E', (1, 0)),
-                 ('S', (0, 1)),
-                 ('N', (0, -1))]
         neighbours = []
-        for direction, (dx, dy) in delta:
+        for direction, (dx, dy) in Cell.delta.items():
             x2, y2 = cell.x + dx, cell.y + dy
             if (0 <= x2 < self.nx) and (0 <= y2 < self.ny):
                 neighbour = self.cell_at(x2, y2)
                 if neighbour.has_all_walls():
                     neighbours.append((direction, neighbour))
         return neighbours
+
+
+    def get_solution(self):
+        return self.solution
 
 
     def make_maze(self):
@@ -198,4 +221,10 @@ class Maze:
             current_cell.knock_down_wall(next_cell, direction)
             cell_stack.append(current_cell)
             current_cell = next_cell
+            
+            # Store the solution if we are at the exit cell
+            if (current_cell.x == self.nx - 1) and \
+               (current_cell.y == self.ny - 1):
+                self.solution = cell_stack.copy()
+                self.solution.append(next_cell)
             nv += 1
