@@ -38,6 +38,7 @@ class Tb3(Node):
     def rotate_90_degrees_anticlockwise_a(self):
         """
         Rotate the robot 90 degrees anti-clockwise.
+        For challenges 2a only, refer the function below for 2b.
         *Problem: However this is hardcoded, hence it doesn't really work with faster speed.*
         """
         if self.latest_scan_data is not None:
