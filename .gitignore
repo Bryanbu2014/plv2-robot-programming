@@ -160,5 +160,4 @@ cython_debug/
 #.idea/
 
 test.py
-reports_draft
-resources
+notes.md
