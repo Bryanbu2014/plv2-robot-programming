@@ -26,6 +26,7 @@ class Tb3(Node):
         self.velo = 50
         self.ROBOT_WIDTH = 0.281
         self.tolerance = 0.17
+        self.emergency_brake = 0.20
         self.scan_values = []
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
@@ -50,6 +51,7 @@ class Tb3(Node):
         print("⬇️ :", msg.ranges[180])
         print("⬅️ :", msg.ranges[90])
         print("➡️ :", msg.ranges[-90])
+        self.latest_scan_data = msg
 
         if len(self.scan_values) < 2:
             self.scan_values.append(msg.ranges[0])
@@ -65,14 +67,12 @@ class Tb3(Node):
 
         error = self.ROBOT_WIDTH + self.tolerance
 
-        while rclpy.ok():  # To check whether the nodes are running and healthy
-            if avg_distance > error:
-                self.update_velocity("acceleration")
-                break
-
-            else:
-                self.update_velocity("deceleration")
-                break
+        if avg_distance > error:
+            self.update_velocity("acceleration")
+        elif avg_distance < self.emergency_brake:
+            self.update_velocity("emergency brake")
+        else:
+            self.update_velocity("deceleration")
 
     def update_velocity(self, mode: str):
         """
@@ -81,15 +81,17 @@ class Tb3(Node):
         :param mode: To instruct the robot whether it should accelerate or decelerate.
         """
         if mode == "acceleration":
-            self.velo = self.velo + 10
+            self.velo = self.velo + 8
             if self.velo >= 100:
                 self.velo = 100
         elif mode == "deceleration":
-            self.velo = self.velo - 10
+            self.velo = self.velo - 8
             if self.velo <= 0:
                 self.velo = 0
+        elif mode == "emergency brake":
+            self.velo = 0
         self.vel(self.velo)
-        print("Info:", self.velo)
+        print("Velocity:", self.velo)
 
 
 def main(args=None):
