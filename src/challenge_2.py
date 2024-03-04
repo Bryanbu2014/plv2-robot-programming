@@ -1,3 +1,4 @@
+import signal
 import rclpy  # ROS client library
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
@@ -5,7 +6,6 @@ from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 
-import math
 import time
 
 
@@ -152,16 +152,15 @@ def main(args=None):
     rclpy.init(args=args)
 
     tb3 = Tb3()
-    print("waiting for messages...")
+    print("Waiting for messages...")
 
-    try:
-        rclpy.spin(tb3)  # Execute tb3 node
-        # Blocks until the executor (spin) cannot work
-    except KeyboardInterrupt:
-        pass
+    def stop_robot(sig, frame):
+        tb3.vel(0, 0)
+        tb3.destroy_node()
+        rclpy.shutdown()
 
-    tb3.destroy_node()
-    rclpy.shutdown()
+    signal.signal(signal.SIGINT, stop_robot)  # Stop on SIGINT
+    rclpy.spin(tb3)
 
 
 if __name__ == "__main__":

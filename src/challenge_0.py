@@ -1,9 +1,10 @@
+import signal
+
 import rclpy  # ROS client library
+from geometry_msgs.msg import Twist
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
-
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Twist
 
 
 class Tb3(Node):
@@ -25,7 +26,7 @@ class Tb3(Node):
         self.lin_vel_percent = 0
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
-        """publishes linear and angular velocities in percent"""
+        """Publishes linear and angular velocities in percent"""
         # for TB3 Waffle
         MAX_LIN_VEL = 0.26  # m/s
         MAX_ANG_VEL = 1.82  # rad/s
@@ -39,29 +40,29 @@ class Tb3(Node):
         self.lin_vel_percent = lin_vel_percent
 
     def scan_callback(self, msg):
-        """is run whenever a LaserScan msg is received"""
+        """Is run whenever a LaserScan msg is received"""
         print()
         print("Distances:")
+        n = len(msg.ranges)
         print("⬆️ :", msg.ranges[0])
-        print("⬇️ :", msg.ranges[180])
-        print("⬅️ :", msg.ranges[90])
-        print("➡️ :", msg.ranges[-90])
+        print("⬇️ :", msg.ranges[n // 2])
+        print("⬅️ :", msg.ranges[n // 4])
+        print("➡️ :", msg.ranges[-n // 4])
 
 
 def main(args=None):
     rclpy.init(args=args)
 
     tb3 = Tb3()
-    print("waiting for messages...")
+    print("Waiting for messages...")
 
-    try:
-        rclpy.spin(tb3)  # Execute tb3 node
-        # Blocks until the executor (spin) cannot work
-    except KeyboardInterrupt:
-        pass
+    def stop_robot(sig, frame):
+        tb3.vel(0, 0)
+        tb3.destroy_node()
+        rclpy.shutdown()
 
-    tb3.destroy_node()
-    rclpy.shutdown()
+    signal.signal(signal.SIGINT, stop_robot)  # Stop on SIGINT
+    rclpy.spin(tb3)
 
 
 if __name__ == "__main__":
