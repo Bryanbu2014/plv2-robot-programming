@@ -29,7 +29,7 @@ class Tb3(Node):
         self.velo = 50
         self.ROBOT_WIDTH = 0.281
         self.tolerance = 0.17  # Ori value 0.17
-        self.rotation_buffer = 0.35
+        self.rotation_buffer = 0.37
         self.scan_values = []
         self.error = self.ROBOT_WIDTH + self.tolerance
         self.state = "go"
@@ -61,7 +61,7 @@ class Tb3(Node):
         if self.latest_scan_data is not None:
             self.vel(0, 30)
 
-            if self.latest_scan_data.ranges[-90] <= 0.165:
+            if self.latest_scan_data.ranges[-90] <= 0.225:
                 print("STOP!")
                 self.vel(0, 0)
                 self.state = "final go"
@@ -139,7 +139,7 @@ class Tb3(Node):
             if self.velo >= 100:
                 self.velo = 100
         elif mode == "deceleration":
-            self.velo = self.velo - 8
+            self.velo = self.velo - 12
             if self.velo <= 0:
                 self.velo = 0
         elif mode == "emergency brake":
