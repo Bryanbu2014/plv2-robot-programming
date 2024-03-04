@@ -29,7 +29,7 @@ class Tb3(Node):
         self.velo = 50
         self.ROBOT_WIDTH = 0.281
         self.tolerance = 0.17  # Ori value 0.17
-        self.rotation_buffer = 0.3
+        self.rotation_buffer = 0.35
         self.scan_values = []
         self.error = self.ROBOT_WIDTH + self.tolerance
         self.state = "go"
