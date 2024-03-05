@@ -106,7 +106,7 @@ class Tb3(Node):
         print(f"Distance Moved: {distance_moved}")
 
         if self.state == State.FIRST_GO:
-            self.vel(40, 0)
+            self.vel(20, 0)
             if distance_moved >= 0.15:
                 self.vel(0, 0)
                 self.state = State.STOP
@@ -119,9 +119,10 @@ class Tb3(Node):
                 self.initial_position = None
                 self.state = State.SECOND_GO
         if self.state == State.SECOND_GO:
-            self.vel(40, 0)
             if distance_moved >= 0.15:
                 self.vel(0, 0)
+            else:
+                self.vel(20, 0)
 
 
 def main(args=None):
