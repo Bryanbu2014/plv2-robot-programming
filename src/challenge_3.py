@@ -14,10 +14,10 @@ import math
 
 
 class State(Enum):
-    GO = 1
+    FIRST_GO = 1
     STOP = 2
-    ROTATE_90_DEGREE_CLOCKWISE = 3
-    FINAL_GO = 4
+    ROTATE_90_DEGREES_CLOCKWISE = 3
+    SECOND_GO = 4
 
 
 class Tb3(Node):
@@ -41,15 +41,9 @@ class Tb3(Node):
 
         self.ang_vel_percent = 0
         self.lin_vel_percent = 0
-        self.velo = 50
-        self.ROBOT_WIDTH = 0.281
-        self.tolerance = 0.17  # Ori value 0.17
-        self.rotation_buffer = 0.37
-        self.collect_values = True
-        self.collect_position = True
-        self.scan_values = []
-        self.error = self.ROBOT_WIDTH + self.tolerance
-        self.state = State.GO
+        self.state = State.FIRST_GO
+        self.initial_position = None
+        self.initial_orientation = None
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
         """publishes linear and angular self.velocities in percent"""
@@ -67,104 +61,81 @@ class Tb3(Node):
 
     def scan_callback(self, msg):
         """is run whenever a LaserScan msg is received"""
-        print()
-        print("Distances:")
-        print("⬆️ :", msg.ranges[0])
-        print("⬇️ :", msg.ranges[180])
-        print("⬅️ :", msg.ranges[90])
-        print("➡️ :", msg.ranges[-90])
-        print(f"State: {self.state}")
-        if self.collect_values:
-            self.current_values = msg
-            self.initial_yaw = self.angles_in_rad[2]
-            self.collect_values = False
-        self.latest_scan_data = msg
-
-        if self.state == State.GO:
-            self.go(msg)
-        elif self.state == State.STOP:
-            self.vel(0, 0)
-            time.sleep(0.5)
-            self.state = State.ROTATE_90_DEGREE_CLOCKWISE
-        elif self.state == State.FINAL_GO:
-            self.go(msg)
+        # print()
+        # print("Distances:")
+        # print("⬆️ :", msg.ranges[0])
+        # print("⬇️ :", msg.ranges[180])
+        # print("⬅️ :", msg.ranges[90])
+        # print("➡️ :", msg.ranges[-90])
 
     def odom_callback(self, msg):
-        self.position = msg.pose.pose.position
-        pos_x = self.position.x
-        pos_y = self.position.y
-        pos_z = self.position.z
+        # Handle position
+        position = msg.pose.pose.position
+        pos_x = position.x
+        pos_y = position.y
+        pos_z = position.z
 
-        if self.collect_position:
-            self.initial_x = self.position.x
-            self.initial_y = self.position.y
-            self.collect_position = False
+        if self.initial_position is None:
+            self.initial_position = position
+            print(self.initial_position)
 
-        self.distance_moved = math.sqrt(
-            (pos_x - self.initial_x) ** 2 + (pos_y - self.initial_y) ** 2
+        distance_moved = math.sqrt(
+            (pos_x - self.initial_position.x) ** 2
+            + (pos_y - self.initial_position.y) ** 2
         )
 
+        # Handle orientation
         orientation = msg.pose.pose.orientation
-        x = orientation.x
-        y = orientation.y
-        z = orientation.z
-        w = orientation.w
-        # print(f"orientation x: {x}")
-        self.angles_in_rad = quat2euler([w, x, y, z])
-        yaw = self.angles_in_rad[2]
-        pitch = self.angles_in_rad[1]  # Not actually needed
-        roll = self.angles_in_rad[0]  # Not actually needed
-        # Initialized position
-        # yaw: 1.5708002582125502
-        # pitch: -0.006185335875932426
-        # roll: 3.141509317213178
-        # print(f"yaw: {yaw}, pitch: {pitch}, roll: {roll}")
-        if self.state == State.ROTATE_90_DEGREE_CLOCKWISE:
-            self.vel(0, -30)
-            self.rotation = self.initial_yaw - yaw
-            print(f"Rotation: {self.rotation}")
-            if yaw < (
-                self.initial_yaw - (math.pi / 2)
-            ):  # To be solve: Get the initial yaw values
+        ori_w = orientation.w
+        ori_x = orientation.x
+        ori_y = orientation.y
+        ori_z = orientation.z
+
+        if self.initial_orientation is None:
+            self.initial_orientation = quat2euler([ori_w, ori_x, ori_y, ori_z])
+            print(self.initial_orientation)
+
+        self.angles_in_rad = quat2euler([ori_w, ori_x, ori_y, ori_z])
+        yaw_in_deg = math.degrees(
+            self.angles_in_rad[2]
+        )  # Convert yaw from radian to degree
+
+        initial_yaw_in_deg = math.degrees(self.initial_orientation[2])
+
+        rotation = self.normalize_angle(initial_yaw_in_deg - yaw_in_deg)
+
+        print(f"Lin Velo: {self.lin_vel_percent}")
+        print(f"Ang Velo: {self.ang_vel_percent}")
+        print(f"Rotation: {rotation}")
+        print(f"Distance Moved: {distance_moved}")
+        print(f"")
+
+        if self.state == State.FIRST_GO:
+            self.vel(20, 0)
+            if distance_moved >= 0.15:
                 self.vel(0, 0)
-                self.state = State.FINAL_GO
-                self.collect_values = True
-                self.collect_position = True
-
-    def get_avg_distance(self, msg):
-        if len(self.scan_values) < 2:
-            self.scan_values.append(msg.ranges[0])
-            print("Scan values: " + str(self.scan_values))
-            avg_distance = self.scan_values[0]
-            return avg_distance
-
-        self.scan_values.pop(0)
-        self.scan_values.append(msg.ranges[0])
-        print("Scan values: " + str(self.scan_values))
-
-        avg_distance = (self.scan_values[0] + self.scan_values[1]) / 2
-        return avg_distance
-
-    def go(self, msg):
-        avg_distance = self.get_avg_distance(msg)
-        print("Average distance: " + str(avg_distance))
-
-        print(
-            f"Current values: {self.current_values.ranges[0]}, Avg Dist: {avg_distance}, Distance Moved: {self.distance_moved}"
-        )
-        if State.GO or State.FINAL_GO:
-            self.vel(40, 0)
-            print(f"Linear Velocity: {self.lin_vel_percent}")
-        if self.distance_moved >= 0.15:
-            self.vel(0, 0)
-            print(f"Linear Velocity: {self.lin_vel_percent}")
-            if self.state == State.GO:
+                time.sleep(0.5)
                 self.state = State.STOP
-        elif self.state == State.GO:
-            if avg_distance < self.rotation_buffer:
+        if self.state == State.STOP:
+            self.state = State.ROTATE_90_DEGREES_CLOCKWISE
+        if self.state == State.ROTATE_90_DEGREES_CLOCKWISE:
+            self.vel(0, -20)
+            if rotation >= 90:
                 self.vel(0, 0)
-                print(f"Linear Velocity: {self.lin_vel_percent}")
-                self.state = State.STOP
+                self.initial_position = None
+                self.state = State.SECOND_GO
+        if self.state == State.SECOND_GO:
+            if distance_moved >= 0.15:
+                self.vel(0, 0)
+            else:
+                self.vel(20, 0)
+
+    def normalize_angle(self, angle):
+        while angle > 180:
+            angle -= 360
+        while angle < -180:
+            angle += 360
+        return angle
 
 
 def main(args=None):
