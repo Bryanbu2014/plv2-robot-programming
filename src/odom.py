@@ -7,6 +7,7 @@ from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan
 from transforms3d.euler import quat2euler
 from nav_msgs.msg import Odometry
+import math
 
 
 class Tb3(Node):
@@ -47,20 +48,20 @@ class Tb3(Node):
 
     def scan_callback(self, msg):
         """Is run whenever a LaserScan msg is received"""
-        print()
-        print("Distances:")
-        n = len(msg.ranges)
-        print("⬆️ :", msg.ranges[0])
-        print("⬇️ :", msg.ranges[n // 2])
-        print("⬅️ :", msg.ranges[n // 4])
-        print("➡️ :", msg.ranges[-n // 4])
+        # print()
+        # print("Distances:")
+        # n = len(msg.ranges)
+        # print("⬆️ :", msg.ranges[0])
+        # print("⬇️ :", msg.ranges[n // 2])
+        # print("⬅️ :", msg.ranges[n // 4])
+        # print("➡️ :", msg.ranges[-n // 4])
 
     def odom_callback(self, msg):
         self.position = msg.pose.pose.position
         pos_x = self.position.x
         pos_y = self.position.y
         pos_z = self.position.z
-        print(f"{pos_x}, {pos_y}")
+        # print(f"{pos_x}, {pos_y}")
 
         orientation = msg.pose.pose.orientation
         x = orientation.x
@@ -69,12 +70,13 @@ class Tb3(Node):
         w = orientation.w
         # print(f"orientation x: {x}")
         angles_in_rad = quat2euler([w, x, y, z])
-        roll = angles_in_rad[0]
-        pitch = angles_in_rad[1]
-        yaw = angles_in_rad[2]
+        roll = math.degrees(angles_in_rad[0])
+        pitch = math.degrees(angles_in_rad[1])
+        yaw = math.degrees(angles_in_rad[2])
         print(f"Yaw: {yaw}")
         print(f"Pitch: {pitch}")
         print(f"Roll: {roll}")
+        print("")
 
 
 def main(args=None):
