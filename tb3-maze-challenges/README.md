@@ -103,7 +103,7 @@ The start motion of the robot must also be *smooth*.
 
 ### a
 
-Rotate 90 degrees counter-clockwise without translation. The rotation movement must be *smooth* like in the last challenge. Only use the laser distance sensor data. If you cannot do an exact 90 degree rotation, that is fine.
+Rotate 90 degrees counter-clockwise without translation by *using the laser distance sensor data*. The rotation movement must be *smooth* like in the last challenge. If you cannot do an exact 90 degree rotation, that is fine.
 
 <!--
 Formulate a control equation for the rotation similar to the last challenge.
