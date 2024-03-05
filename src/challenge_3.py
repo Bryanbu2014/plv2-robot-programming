@@ -8,6 +8,7 @@ from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from enum import Enum
 from transforms3d.euler import quat2euler
+from utils import normalize_angle
 
 import time
 import math
@@ -102,7 +103,7 @@ class Tb3(Node):
 
         initial_yaw_in_deg = math.degrees(self.initial_orientation[2])
 
-        rotation = self.normalize_angle(initial_yaw_in_deg - yaw_in_deg)
+        rotation = normalize_angle(initial_yaw_in_deg - yaw_in_deg)
 
         print(f"Lin Velo: {self.lin_vel_percent}")
         print(f"Ang Velo: {self.ang_vel_percent}")
@@ -131,13 +132,6 @@ class Tb3(Node):
                     self.vel(0, 0)
                 else:
                     self.vel(20, 0)
-
-    def normalize_angle(self, angle):
-        while angle > 180:
-            angle -= 360
-        while angle < -180:
-            angle += 360
-        return angle
 
 
 def main(args=None):
