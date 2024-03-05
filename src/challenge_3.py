@@ -97,7 +97,7 @@ class Tb3(Node):
 
         if self.collect_position:
             self.initial_x = self.position.x
-            self.initlal_y = self.position.y
+            self.initial_y = self.position.y
             self.collect_position = False
 
         self.distance_moved = math.sqrt(
@@ -129,6 +129,7 @@ class Tb3(Node):
                 self.vel(0, 0)
                 self.state = State.FINAL_GO
                 self.collect_values = True
+                self.collect_position = True
 
     def get_avg_distance(self, msg):
         if len(self.scan_values) < 2:
