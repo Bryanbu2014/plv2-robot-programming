@@ -46,6 +46,7 @@ class Tb3(Node):
         self.tolerance = 0.17  # Ori value 0.17
         self.rotation_buffer = 0.37
         self.collect_values = True
+        self.collect_position = True
         self.scan_values = []
         self.error = self.ROBOT_WIDTH + self.tolerance
         self.state = State.GO
@@ -76,15 +77,8 @@ class Tb3(Node):
         if self.collect_values:
             self.current_values = msg
             self.initial_yaw = self.angles_in_rad[2]
-            self.initial_x = self.position.x
-            self.initial_y = self.position.y
             self.collect_values = False
         self.latest_scan_data = msg
-
-        self.distance_moved = math.sqrt(
-            (self.position.x - self.initial_x) ** 2
-            + (self.position.y - self.initial_y) ** 2
-        )
 
         if self.state == State.GO:
             self.go(msg)
@@ -100,6 +94,15 @@ class Tb3(Node):
         pos_x = self.position.x
         pos_y = self.position.y
         pos_z = self.position.z
+
+        if self.collect_position:
+            self.initial_x = self.position.x
+            self.initlal_y = self.position.y
+            self.collect_position = False
+
+        self.distance_moved = math.sqrt(
+            (pos_x - self.initial_x) ** 2 + (pos_y - self.initial_y) ** 2
+        )
 
         orientation = msg.pose.pose.orientation
         x = orientation.x
@@ -117,7 +120,7 @@ class Tb3(Node):
         # roll: 3.141509317213178
         # print(f"yaw: {yaw}, pitch: {pitch}, roll: {roll}")
         if self.state == State.ROTATE_90_DEGREE_CLOCKWISE:
-            self.vel(0, -10)
+            self.vel(0, -30)
             self.rotation = self.initial_yaw - yaw
             print(f"Rotation: {self.rotation}")
             if yaw < (
