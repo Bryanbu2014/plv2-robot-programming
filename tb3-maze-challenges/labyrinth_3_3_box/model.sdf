@@ -7,6 +7,10 @@
 				
 					
 			
+			<include><name>0_2h</name><uri>model://wall</uri><pose>0 2 0 0 0 0</pose></include>
+		
+					
+			
 			<include><name>0_2v</name><uri>model://wall</uri><pose>0 2 0 0 0 1.5707963267948966</pose></include>
 		
 					
@@ -33,7 +37,7 @@
 				
 					
 			
-			<include><name>1_2v</name><uri>model://wall</uri><pose>1 2 0 0 0 1.5707963267948966</pose></include>
+			<include><name>1_2h</name><uri>model://wall</uri><pose>1 2 0 0 0 0</pose></include>
 		
 					
 			
@@ -65,7 +69,7 @@
 				
 					
 			
-			<include><name>2_1v</name><uri>model://wall</uri><pose>2 1 0 0 0 1.5707963267948966</pose></include>
+			<include><name>2_1h</name><uri>model://wall</uri><pose>2 1 0 0 0 0</pose></include>
 		
 					
 			
@@ -76,10 +80,6 @@
 					
 			
 			<include><name>2_0h</name><uri>model://wall</uri><pose>2 0 0 0 0 0</pose></include>
-		
-					
-			
-			<include><name>2_0v</name><uri>model://wall</uri><pose>2 0 0 0 0 1.5707963267948966</pose></include>
 		
 					
 			

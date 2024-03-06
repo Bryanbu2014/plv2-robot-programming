@@ -49,6 +49,10 @@
 		
 				
 				
+					
+			
+			<include><name>1_1h</name><uri>model://wall</uri><pose>1 1 0 0 0 0</pose></include>
+		
 				
 				
 					
@@ -67,10 +71,6 @@
 		
 				
 				
-					
-			
-			<include><name>2_1v</name><uri>model://wall</uri><pose>2 1 0 0 0 1.5707963267948966</pose></include>
-		
 					
 			
 			<include><name>3_1v</name><uri>model://wall</uri><pose>3 1 0 0 0 1.5707963267948966</pose></include>
