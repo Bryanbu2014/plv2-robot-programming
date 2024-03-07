@@ -6,22 +6,12 @@ from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-from enum import Enum, auto
 from transforms3d.euler import quat2euler
 from utils import *
 
 import time
 import math
 import sys
-
-
-class State(Enum):
-    FORWARD = auto()
-    BLOCKED = auto()
-    DECIDE_ROTATION = auto()
-    ROTATE_LEFT = auto()
-    ROTATE_RIGHT = auto()
-    STOP = auto()
 
 
 class Tb3(Node):
@@ -46,15 +36,16 @@ class Tb3(Node):
         self.ang_vel_percent = 0
         self.lin_vel_percent = 0
         self.ROBOT_WIDTH = 0.281
-        self.TOLERANCE = 0.17
+        self.TOLERANCE = 0.10
         self.ROTATION_BUFFER = 0.37
         self.state = State.FORWARD
         self.scanned_values = None
         self.initial_position = None
         self.initial_orientation = None
         self.current_cell = ()
-        self.TARGETED_CELL = (2, 2)
+        self.TARGETED_CELL = (1, -1)
         self.starting_time = None
+        self.transformation = None
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
         """publishes linear and angular self.velocities in percent"""
@@ -110,17 +101,26 @@ class Tb3(Node):
             self.angles_in_rad[2]
         )  # Convert yaw from radian to degree
 
+        if self.transformation is None:
+            self.odom_start_to_odom, self.odom_to_odom_start = (
+                create_transformations_between_odom_start_and_odom(
+                    (self.pos_x, self.pos_y), self.angles_in_rad[2]
+                )
+            )
+            self.transformation = "Done"
+
+        if self.transformation == "Done":
+            self.robot_pos = self.odom_to_odom_start((self.pos_x, self.pos_y))
+            # print(f"Robot Position -> Odom Start: {self.robot_pos}")
+            # print(f"Odom: {self.odom_start_to_odom(robot_pos)}")
+            # print("")
+
         initial_yaw_in_deg = math.degrees(self.initial_orientation[2])
 
         rotation = normalize_angle(initial_yaw_in_deg - yaw_in_deg)
 
-        print(f"Current state: {self.state}")
-        print(f"Lin and Ang Velocity: ({self.lin_vel_percent}, {self.ang_vel_percent})")
-        if self.state == State.ROTATE_LEFT or self.state == State.ROTATE_RIGHT:
-            print(f"Rotation: {abs(rotation)}")
-        else:
-            print(f"Rotation: Not rotating")
-        print(f"")
+        show_info(self.state, self.lin_vel_percent, self.ang_vel_percent, rotation)
+        print(f"Current Cell: {self.current_cell}")
 
         match self.state:
             case State.BLOCKED:
@@ -163,8 +163,16 @@ class Tb3(Node):
         sys.exit(0)
 
     def check_and_update_position(self):
-        x = math.floor(self.pos_x)
-        y = math.floor(self.pos_y)
+        x = (
+            math.floor(self.robot_pos[0])
+            if self.robot_pos[0] > 0
+            else math.ceil(self.robot_pos[0])
+        )
+        y = (
+            math.floor(self.robot_pos[1])
+            if self.robot_pos[1] > 0
+            else math.ceil(self.robot_pos[1])
+        )
         self.current_cell = (x, y)
         if self.current_cell == self.TARGETED_CELL:
             self.state = State.STOP

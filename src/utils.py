@@ -7,6 +7,7 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from transforms3d.euler import quat2euler
 from nav_msgs.msg import Odometry
+from enum import Enum, auto
 
 
 import time
@@ -16,6 +17,15 @@ FRONT = 0
 BACK = 180
 LEFT = 90
 RIGHT = -90
+
+
+class State(Enum):
+    FORWARD = auto()
+    BLOCKED = auto()
+    DECIDE_ROTATION = auto()
+    ROTATE_LEFT = auto()
+    ROTATE_RIGHT = auto()
+    STOP = auto()
 
 
 def normalize_angle(angle):
@@ -73,6 +83,16 @@ def show_odom_callback(msg):
     print(f"Pitch: {pitch}")
     print(f"Roll: {roll}")
     print("")
+
+
+def show_info(state, lin_vel_percent, ang_vel_percent, rotation=None):
+    print(f"Current state: {state}")
+    print(f"Lin and Ang Velocity: ({lin_vel_percent}, {ang_vel_percent})")
+    if state == State.ROTATE_LEFT or state == State.ROTATE_RIGHT:
+        print(f"Rotation: {abs(rotation)}")
+    else:
+        print(f"Rotation: Not rotating")
+    print(f"")
 
 
 ####################################

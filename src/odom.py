@@ -33,6 +33,7 @@ class Tb3(Node):
 
         self.ang_vel_percent = 0
         self.lin_vel_percent = 0
+        self.transformation = None
 
     def vel(self, lin_vel_percent, ang_vel_percent=0):
         """Publishes linear and angular velocities in percent"""
@@ -54,6 +55,36 @@ class Tb3(Node):
 
     def odom_callback(self, msg):
         show_odom_callback(msg)
+        position = msg.pose.pose.position
+        self.pos_x = position.x
+        self.pos_y = position.y
+        self.pos_z = position.z
+
+        # Handle orientation
+        orientation = msg.pose.pose.orientation
+        ori_w = orientation.w
+        ori_x = orientation.x
+        ori_y = orientation.y
+        ori_z = orientation.z
+
+        self.angles_in_rad = quat2euler([ori_w, ori_x, ori_y, ori_z])
+        yaw_in_deg = math.degrees(
+            self.angles_in_rad[2]
+        )  # Convert yaw from radian to degree
+
+        if self.transformation is None:
+            self.odom_start_to_odom, self.odom_to_odom_start = (
+                create_transformations_between_odom_start_and_odom(
+                    (self.pos_x, self.pos_y), self.angles_in_rad[2]
+                )
+            )
+            self.transformation = "Done"
+
+        if self.transformation == "Done":
+            robot_pos = self.odom_to_odom_start((self.pos_x, self.pos_y))
+            print(f"Robot Position -> Odom Start: {robot_pos}")
+            print(f"Odom: {self.odom_start_to_odom(robot_pos)}")
+            print("")
 
 
 def main(args=None):
