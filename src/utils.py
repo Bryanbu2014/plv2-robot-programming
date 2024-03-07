@@ -86,7 +86,7 @@ def show_odom_callback(msg):
 
 
 def show_info(state, lin_vel_percent, ang_vel_percent, rotation=None):
-    print(f"Current state: {state}")
+    print(f"Current State: {state}")
     print(f"Lin and Ang Velocity: ({lin_vel_percent}, {ang_vel_percent})")
     if state == State.ROTATE_LEFT or state == State.ROTATE_RIGHT:
         print(f"Rotation: {abs(rotation)}")
