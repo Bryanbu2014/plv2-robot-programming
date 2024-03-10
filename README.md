@@ -12,6 +12,14 @@
 
 For more information, please refer to the report that is deployed in the internet in [this repository](https://mygit.th-deg.de/wb29353/sphinx-book-template) or [this link](https://joan.th-deg.de/~wb29353/sphinx-book-template/)
 
+## Execution
+
+With all the environment setup properly, cd into the `src` directory, then use the following command
+
+```bash
+python3 <script_name>
+```
+
 # Turtlebot3 ROS2 template
 
 A minimal template for controlling Turtlebot3
