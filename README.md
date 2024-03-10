@@ -1,9 +1,16 @@
 # PLV 2 - Robot Programming
 
-## Contents in this Repository
+## Student info
 
-- [src](/src/): Source code for the project
+- Name: Wen Bin (Bryan) Bu
+- Matriculation Number: 00819353
+
+## Relevant contents in this Repository
+
+- [src](/src/): Source code for solving the maze in [this repository](https://mygit.th-deg.de/gaydos/tb3-maze-challenges) or [this folder](/tb3-maze-challenges/)
 - [tb3-maze-challenges](/tb3-maze-challenges/): Files for simulation
+
+For more information, please refer to the report that is deployed in the internet in [this repository](https://mygit.th-deg.de/wb29353/sphinx-book-template) or [this link](https://joan.th-deg.de/~wb29353/sphinx-book-template/)
 
 # Turtlebot3 ROS2 template
 

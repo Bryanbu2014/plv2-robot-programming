@@ -1,7 +1,6 @@
 # df_maze.py
 import random
 
-
 # Create a maze using the depth-first algorithm described at
 # https://scipython.com/blog/making-a-maze/
 # Christian Hill, April 2017.
@@ -24,7 +23,7 @@ class Cell:
 
         self.x, self.y = x, y
         self.walls = {'N': True, 'S': True, 'E': True, 'W': True}
-    
+
     def __repr__(self):
         """return a string representation of a cell"""
         return f'({self.x}, {self.y})'
@@ -64,7 +63,7 @@ class Maze:
         # present in the output here.
         self.excluded_walls = [((nx-1, ny), (nx, ny)),
                                ((0, 0), (0, 1))]
-        
+
         # Store the solution to the maze
         self.solution = None
 
@@ -121,7 +120,7 @@ class Maze:
         def add_cell_rect(f, x, y, colour):
             pad = 5
             print(f'<rect x="{scx*x+pad}" y="{scy*y+pad}" width="{scx-2*pad}"'
-                  f' height="{scy-2*pad}" style="fill:{colour}" />', file=f) 
+                  f' height="{scy-2*pad}" style="fill:{colour}" />', file=f)
 
         def add_path_segment(f, cell, next_cell):
             sx1, sy1 = scx * (cell.x + 0.5), scy * (cell.y + 0.5)
@@ -162,7 +161,7 @@ class Maze:
                 write_wall(f, x, 0, x+1, 0)
             for y in range(self.ny):
                 write_wall(f, 0, y, 0, y+1)
-                
+
             #print('<line x1="0" y1="0" x2="{}" y2="0"/>'.format(width), file=f)
             #print('<line x1="0" y1="0" x2="0" y2="{}"/>'.format(height), file=f)
 
@@ -221,7 +220,7 @@ class Maze:
             current_cell.knock_down_wall(next_cell, direction)
             cell_stack.append(current_cell)
             current_cell = next_cell
-            
+
             # Store the solution if we are at the exit cell
             if (current_cell.x == self.nx - 1) and \
                (current_cell.y == self.ny - 1):

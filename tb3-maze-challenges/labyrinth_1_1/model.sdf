@@ -2,25 +2,24 @@
 <?xml version="1.0" ?>
 <sdf version="1.7">
     <model name="labyrinth">
-		
-				
-				
-					
-			
+
+
+
+
+
 			<include><name>0_0h</name><uri>model://wall_White</uri><pose>0 0 0 0 0 0</pose></include>
-		
-					
-			
+
+
+
 			<include><name>0_0v</name><uri>model://wall</uri><pose>0 0 0 0 0 1.5707963267948966</pose></include>
-		
-					
-			
+
+
+
 			<include><name>0_1h</name><uri>model://wall_Red</uri><pose>0 1 0 0 0 0</pose></include>
-		
-					
-			
+
+
+
 			<include><name>1_0v</name><uri>model://wall</uri><pose>1 0 0 0 0 1.5707963267948966</pose></include>
-		
+
 	</model>
 </sdf>
-

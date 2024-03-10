@@ -4,18 +4,18 @@
 	<model name="wall_White">
 		<link name="link">
 			<visual name="visual">
-				
-				
+
+
 				<pose>0.5 0.025 0.1 0 0 0</pose>
-				
-				
-				
+
+
+
 				<geometry>
 					<box>
 						<size>1 0.05 0.2</size>
 					</box>
 				</geometry>
-				
+
 				<material>
 					<script>
 						<uri>file://media/materials/scripts/gazebo.material</uri>
@@ -24,16 +24,16 @@
 				</material>
 			</visual>
 			<collision name="collision">
-				
+
 				<pose>0.5 0.025 0.1 0 0 0</pose>
-				
-				
+
+
 				<geometry>
 					<box>
 						<size>1 0.05 0.2</size>
 					</box>
 				</geometry>
-				
+
 				<laser_retro>3</laser_retro>
 			</collision>
 		</link>

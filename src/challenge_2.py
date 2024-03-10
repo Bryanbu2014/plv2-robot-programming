@@ -1,12 +1,11 @@
 import signal
+import time
+
 import rclpy  # ROS client library
+from geometry_msgs.msg import Twist
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
-
 from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Twist
-
-import time
 
 
 class Tb3(Node):
@@ -85,10 +84,11 @@ class Tb3(Node):
         """is run whenever a LaserScan msg is received"""
         print()
         print("Distances:")
+        n = len(msg.ranges)
         print("⬆️ :", msg.ranges[0])
-        print("⬇️ :", msg.ranges[180])
-        print("⬅️ :", msg.ranges[90])
-        print("➡️ :", msg.ranges[-90])
+        print("⬇️ :", msg.ranges[n // 2])
+        print("⬅️ :", msg.ranges[n // 4])
+        print("➡️ :", msg.ranges[-n // 4])
         print(self.state)
         self.latest_scan_data = msg
 
@@ -154,6 +154,7 @@ def main(args=None):
 
     tb3 = Tb3()
     print("Waiting for messages...")
+    print("If you cannot kill the process using CTRL+C, use CTRL+\\")
 
     def stop_robot(sig, frame):
         tb3.vel(0, 0)

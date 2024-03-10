@@ -8,7 +8,7 @@
 	column_count, row_count = 6, 6
 	# Maze entry position
 	ix, iy = 0, 0
-	
+
 	# get serialized arguments if defined and has length
 	try:
 		if serialized_args:
@@ -19,7 +19,7 @@
 		pass
 
 	maze = Maze(column_count, row_count, ix, iy)
-	maze.make_maze()	
+	maze.make_maze()
 	maze.write_svg('maze.svg')
 
 	# for unique wall id generation
@@ -68,4 +68,3 @@
 		% endfor
 	</model>
 </sdf>
-

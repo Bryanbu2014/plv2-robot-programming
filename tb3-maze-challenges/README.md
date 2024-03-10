@@ -86,14 +86,14 @@ Your robot should stop *smoothly* by decelerating according to the distance.
 
 - how can you gradually decrease your velocity?
 - look at the feedback loop [here](https://commons.wikimedia.org/wiki/File:Ideal_feedback_model.svg).
-  - what is your input, what is your output? 
+  - what is your input, what is your output?
   - what does the green + sign resemble?
   - what can `A` and `B` do?
 - the laser distance sensor data will probably have some noise. How can you alleviate the noise?
 
 ### c
 
-The start motion of the robot must also be *smooth*. 
+The start motion of the robot must also be *smooth*.
 
 ## Challenge 2
 
@@ -115,7 +115,7 @@ Hints:
 
 ### b
 
-Drive to the wall in front of you, and stop at a safe distance. Then rotate like in the previous subchallenge and drive close to the wall in front of you and finally stop. 
+Drive to the wall in front of you, and stop at a safe distance. Then rotate like in the previous subchallenge and drive close to the wall in front of you and finally stop.
 
 - this time we have to describe a more complex behavior than the last challenge. What is a useful tool to describe the behavior of your robot?
 - do you know how to implement a state machine in Python?
@@ -168,7 +168,7 @@ def maze_to_robot(rotation: float) -> float:
 ```
 <!--
 - use the previous functions to program something similar to:
-  -  
+  -
 -->
 
 
