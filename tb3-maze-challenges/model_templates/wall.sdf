@@ -18,7 +18,7 @@
 
 	material_lib = 'gazebo'
 	material_name = f'Gazebo/{gazebo_material_name}'
-	
+
 	if gazebo_material_name == 'White':
 		laser_retro = 3
 	elif gazebo_material_name == 'Red':

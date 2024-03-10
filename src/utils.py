@@ -1,17 +1,10 @@
-import signal
+import math
+from enum import Enum, auto
+
 import rclpy  # ROS client library
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
-
-from sensor_msgs.msg import LaserScan
-from geometry_msgs.msg import Twist
 from transforms3d.euler import quat2euler
-from nav_msgs.msg import Odometry
-from enum import Enum, auto
-
-
-import time
-import math
 
 FRONT = 0
 BACK = 180
@@ -20,6 +13,20 @@ RIGHT = -90
 
 
 class State(Enum):
+    """
+    An enumeration defining the possible states of a robot in a navigation or control context.
+    Each state represents a different mode of operation or behavior the robot can be in,
+    typically used to control its movement and decision-making processes.
+
+    Attributes:
+        FORWARD: Robot moves forward.
+        BLOCKED: Robot is blocked by obstacle(s).
+        DECIDE_ROTATION: Robot needs to decide which direction to rotate, either left or right.
+        ROTATE_LEFT: Robot rotates to the left.
+        ROTATE_RIGHT: Robot rotates to the right.
+        STOP: Robot stops.
+    """
+
     FORWARD = auto()
     BLOCKED = auto()
     DECIDE_ROTATION = auto()
@@ -28,7 +35,11 @@ class State(Enum):
     STOP = auto()
 
 
-def normalize_angle(angle):
+def normalize_angle(angle: float):
+    """
+    Gets the angle of rotation without considering quadrants.
+    """
+
     while angle > 180:
         angle -= 360
     while angle < -180:
@@ -36,7 +47,11 @@ def normalize_angle(angle):
     return angle
 
 
-def get_avg_distance(scanned_values, msg):
+def get_avg_distance(scanned_values: list, msg):
+    """
+    Calculates the average distance from the lidar sensor to the obstacle in front by averaging 2 readings.
+    """
+
     if len(scanned_values) < 2:
         scanned_values.append(msg.ranges[0])
         print("Scan values: " + str(scanned_values))
@@ -52,6 +67,10 @@ def get_avg_distance(scanned_values, msg):
 
 
 def show_scan_callback(msg):
+    """
+    Shows lidar sensor's readings from front, back, left, and right direction.
+    """
+
     print()
     print("Distances:")
     print("⬆️ :", msg.ranges[FRONT])
@@ -86,6 +105,10 @@ def show_odom_callback(msg):
 
 
 def show_info(state, lin_vel_percent, ang_vel_percent, rotation=None):
+    """
+    Shows useful information for debugging.
+    """
+
     print(f"Current State: {state}")
     print(f"Lin and Ang Velocity: ({lin_vel_percent}, {ang_vel_percent})")
     if state == State.ROTATE_LEFT or state == State.ROTATE_RIGHT:

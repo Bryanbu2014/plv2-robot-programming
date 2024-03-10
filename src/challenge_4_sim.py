@@ -1,18 +1,18 @@
+import math
 import signal
-import rclpy  # ROS client library
-from rclpy.node import Node
-from rclpy.qos import qos_profile_sensor_data
+import sys
+import time
+from enum import Enum, auto
 
-from sensor_msgs.msg import LaserScan
+import rclpy  # ROS client library
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
-from enum import Enum, auto
+from rclpy.node import Node
+from rclpy.qos import qos_profile_sensor_data
+from sensor_msgs.msg import LaserScan
 from transforms3d.euler import quat2euler
-from utils import *
 
-import time
-import math
-import sys
+from utils import *
 
 
 class State(Enum):

@@ -55,6 +55,7 @@ def main(args=None):
 
     tb3 = Tb3()
     print("Waiting for messages...")
+    print("If you cannot kill the process using CTRL+C, use CTRL+\\")
 
     def stop_robot(sig, frame):
         tb3.vel(0, 0)
